@@ -50,11 +50,13 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="actionName">Name of the action.</param>
         /// <param name="parameterNames">The parameter names.</param>
-        public HelpPageSampleKey(SampleDirection sampleDirection, string controllerName, string actionName, IEnumerable<string> parameterNames)
+        public HelpPageSampleKey(SampleDirection sampleDirection, string controllerName, string actionName,
+            IEnumerable<string> parameterNames)
         {
-            if (!Enum.IsDefined(typeof(SampleDirection), sampleDirection))
+            if (!Enum.IsDefined(typeof (SampleDirection), sampleDirection))
             {
-                throw new InvalidEnumArgumentException("sampleDirection", (int)sampleDirection, typeof(SampleDirection));
+                throw new InvalidEnumArgumentException("sampleDirection", (int) sampleDirection,
+                    typeof (SampleDirection));
             }
             if (controllerName == null)
             {
@@ -83,7 +85,8 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="actionName">Name of the action.</param>
         /// <param name="parameterNames">The parameter names.</param>
-        public HelpPageSampleKey(MediaTypeHeaderValue mediaType, SampleDirection sampleDirection, string controllerName, string actionName, IEnumerable<string> parameterNames)
+        public HelpPageSampleKey(MediaTypeHeaderValue mediaType, SampleDirection sampleDirection, string controllerName,
+            string actionName, IEnumerable<string> parameterNames)
             : this(sampleDirection, controllerName, actionName, parameterNames)
         {
             if (mediaType == null)
@@ -139,11 +142,11 @@ namespace TestDemo.Areas.HelpPage
             }
 
             return String.Equals(ControllerName, otherKey.ControllerName, StringComparison.OrdinalIgnoreCase) &&
-                String.Equals(ActionName, otherKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
-                (MediaType == otherKey.MediaType || (MediaType != null && MediaType.Equals(otherKey.MediaType))) &&
-                ParameterType == otherKey.ParameterType &&
-                SampleDirection == otherKey.SampleDirection &&
-                ParameterNames.SetEquals(otherKey.ParameterNames);
+                   String.Equals(ActionName, otherKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
+                   (MediaType == otherKey.MediaType || (MediaType != null && MediaType.Equals(otherKey.MediaType))) &&
+                   ParameterType == otherKey.ParameterType &&
+                   SampleDirection == otherKey.SampleDirection &&
+                   ParameterNames.SetEquals(otherKey.ParameterNames);
         }
 
         public override int GetHashCode()

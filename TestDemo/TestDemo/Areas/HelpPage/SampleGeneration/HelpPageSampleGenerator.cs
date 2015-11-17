@@ -87,7 +87,8 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="api">The <see cref="ApiDescription"/>.</param>
         /// <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
         /// <returns>The samples keyed by media type.</returns>
-        public virtual IDictionary<MediaTypeHeaderValue, object> GetSample(ApiDescription api, SampleDirection sampleDirection)
+        public virtual IDictionary<MediaTypeHeaderValue, object> GetSample(ApiDescription api,
+            SampleDirection sampleDirection)
         {
             if (api == null)
             {
@@ -109,7 +110,7 @@ namespace TestDemo.Areas.HelpPage
 
             // Do the sample generation based on formatters only if an action doesn't return an HttpResponseMessage.
             // Here we cannot rely on formatters because we don't know what's in the HttpResponseMessage, it might not even use formatters.
-            if (type != null && !typeof(HttpResponseMessage).IsAssignableFrom(type))
+            if (type != null && !typeof (HttpResponseMessage).IsAssignableFrom(type))
             {
                 object sampleObject = GetSampleObject(type);
                 foreach (var formatter in formatters)
@@ -118,7 +119,8 @@ namespace TestDemo.Areas.HelpPage
                     {
                         if (!samples.ContainsKey(mediaType))
                         {
-                            object sample = GetActionSample(controllerName, actionName, parameterNames, type, formatter, mediaType, sampleDirection);
+                            object sample = GetActionSample(controllerName, actionName, parameterNames, type, formatter,
+                                mediaType, sampleDirection);
 
                             // If no sample found, try generate sample using formatter and sample object
                             if (sample == null && sampleObject != null)
@@ -146,7 +148,9 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="mediaType">The media type.</param>
         /// <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
         /// <returns>The sample that matches the parameters.</returns>
-        public virtual object GetActionSample(string controllerName, string actionName, IEnumerable<string> parameterNames, Type type, MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, SampleDirection sampleDirection)
+        public virtual object GetActionSample(string controllerName, string actionName,
+            IEnumerable<string> parameterNames, Type type, MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType,
+            SampleDirection sampleDirection)
         {
             object sample;
 
@@ -154,8 +158,13 @@ namespace TestDemo.Areas.HelpPage
             // If not found, try to get the sample provided for the specified mediaType, sampleDirection, controllerName and actionName regardless of the parameterNames.
             // If still not found, try to get the sample provided for the specified mediaType and type.
             // Finally, try to get the sample provided for the specified mediaType.
-            if (ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, parameterNames), out sample) ||
-                ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, new[] { "*" }), out sample) ||
+            if (
+                ActionSamples.TryGetValue(
+                    new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, parameterNames),
+                    out sample) ||
+                ActionSamples.TryGetValue(
+                    new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, new[] {"*"}),
+                    out sample) ||
                 ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, type), out sample) ||
                 ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType), out sample))
             {
@@ -174,7 +183,8 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="type">The type.</param>
         /// <returns>The sample object.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Even if all items in SampleObjectFactories throw, problem will be visible as missing sample.")]
+            Justification =
+                "Even if all items in SampleObjectFactories throw, problem will be visible as missing sample.")]
         public virtual object GetSampleObject(Type type)
         {
             object sampleObject;
@@ -230,20 +240,27 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="parameterNames">The parameter names.</param>
         /// <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
         /// <param name="formatters">The formatters.</param>
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "This is only used in advanced scenarios.")]
-        public virtual Type ResolveType(ApiDescription api, string controllerName, string actionName, IEnumerable<string> parameterNames, SampleDirection sampleDirection, out Collection<MediaTypeFormatter> formatters)
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters",
+            Justification = "This is only used in advanced scenarios.")]
+        public virtual Type ResolveType(ApiDescription api, string controllerName, string actionName,
+            IEnumerable<string> parameterNames, SampleDirection sampleDirection,
+            out Collection<MediaTypeFormatter> formatters)
         {
-            if (!Enum.IsDefined(typeof(SampleDirection), sampleDirection))
+            if (!Enum.IsDefined(typeof (SampleDirection), sampleDirection))
             {
-                throw new InvalidEnumArgumentException("sampleDirection", (int)sampleDirection, typeof(SampleDirection));
+                throw new InvalidEnumArgumentException("sampleDirection", (int) sampleDirection,
+                    typeof (SampleDirection));
             }
             if (api == null)
             {
                 throw new ArgumentNullException("api");
             }
             Type type;
-            if (ActualHttpMessageTypes.TryGetValue(new HelpPageSampleKey(sampleDirection, controllerName, actionName, parameterNames), out type) ||
-                ActualHttpMessageTypes.TryGetValue(new HelpPageSampleKey(sampleDirection, controllerName, actionName, new[] { "*" }), out type))
+            if (
+                ActualHttpMessageTypes.TryGetValue(
+                    new HelpPageSampleKey(sampleDirection, controllerName, actionName, parameterNames), out type) ||
+                ActualHttpMessageTypes.TryGetValue(
+                    new HelpPageSampleKey(sampleDirection, controllerName, actionName, new[] {"*"}), out type))
             {
                 // Re-compute the supported formatters based on type
                 Collection<MediaTypeFormatter> newFormatters = new Collection<MediaTypeFormatter>();
@@ -261,8 +278,11 @@ namespace TestDemo.Areas.HelpPage
                 switch (sampleDirection)
                 {
                     case SampleDirection.Request:
-                        ApiParameterDescription requestBodyParameter = api.ParameterDescriptions.FirstOrDefault(p => p.Source == ApiParameterSource.FromBody);
-                        type = requestBodyParameter == null ? null : requestBodyParameter.ParameterDescriptor.ParameterType;
+                        ApiParameterDescription requestBodyParameter =
+                            api.ParameterDescriptions.FirstOrDefault(p => p.Source == ApiParameterSource.FromBody);
+                        type = requestBodyParameter == null
+                            ? null
+                            : requestBodyParameter.ParameterDescriptor.ParameterType;
                         formatters = api.SupportedRequestBodyFormatters;
                         break;
                     case SampleDirection.Response:
@@ -284,8 +304,10 @@ namespace TestDemo.Areas.HelpPage
         /// <param name="type">The type.</param>
         /// <param name="mediaType">Type of the media.</param>
         /// <returns></returns>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The exception is recorded as InvalidSample.")]
-        public virtual object WriteSampleObjectUsingFormatter(MediaTypeFormatter formatter, object value, Type type, MediaTypeHeaderValue mediaType)
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "The exception is recorded as InvalidSample.")]
+        public virtual object WriteSampleObjectUsingFormatter(MediaTypeFormatter formatter, object value, Type type,
+            MediaTypeHeaderValue mediaType)
         {
             if (formatter == null)
             {
@@ -372,7 +394,8 @@ namespace TestDemo.Areas.HelpPage
             return objectGenerator.GenerateObject(type);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Handling the failure by returning the original string.")]
         private static string TryFormatJson(string str)
         {
             try
@@ -387,7 +410,8 @@ namespace TestDemo.Areas.HelpPage
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Handling the failure by returning the original string.")]
         private static string TryFormatXml(string str)
         {
             try
@@ -414,7 +438,8 @@ namespace TestDemo.Areas.HelpPage
             return false;
         }
 
-        private IEnumerable<KeyValuePair<HelpPageSampleKey, object>> GetAllActionSamples(string controllerName, string actionName, IEnumerable<string> parameterNames, SampleDirection sampleDirection)
+        private IEnumerable<KeyValuePair<HelpPageSampleKey, object>> GetAllActionSamples(string controllerName,
+            string actionName, IEnumerable<string> parameterNames, SampleDirection sampleDirection)
         {
             HashSet<string> parameterNamesSet = new HashSet<string>(parameterNames, StringComparer.OrdinalIgnoreCase);
             foreach (var sample in ActionSamples)
@@ -422,7 +447,8 @@ namespace TestDemo.Areas.HelpPage
                 HelpPageSampleKey sampleKey = sample.Key;
                 if (String.Equals(controllerName, sampleKey.ControllerName, StringComparison.OrdinalIgnoreCase) &&
                     String.Equals(actionName, sampleKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
-                    (sampleKey.ParameterNames.SetEquals(new[] { "*" }) || parameterNamesSet.SetEquals(sampleKey.ParameterNames)) &&
+                    (sampleKey.ParameterNames.SetEquals(new[] {"*"}) ||
+                     parameterNamesSet.SetEquals(sampleKey.ParameterNames)) &&
                     sampleDirection == sampleKey.SampleDirection)
                 {
                     yield return sample;

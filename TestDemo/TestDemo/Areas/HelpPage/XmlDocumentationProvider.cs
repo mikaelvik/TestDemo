@@ -49,14 +49,17 @@ namespace TestDemo.Areas.HelpPage
 
         public virtual string GetDocumentation(HttpParameterDescriptor parameterDescriptor)
         {
-            ReflectedHttpParameterDescriptor reflectedParameterDescriptor = parameterDescriptor as ReflectedHttpParameterDescriptor;
+            ReflectedHttpParameterDescriptor reflectedParameterDescriptor =
+                parameterDescriptor as ReflectedHttpParameterDescriptor;
             if (reflectedParameterDescriptor != null)
             {
                 XPathNavigator methodNode = GetMethodNode(reflectedParameterDescriptor.ActionDescriptor);
                 if (methodNode != null)
                 {
                     string parameterName = reflectedParameterDescriptor.ParameterInfo.Name;
-                    XPathNavigator parameterNode = methodNode.SelectSingleNode(String.Format(CultureInfo.InvariantCulture, ParameterExpression, parameterName));
+                    XPathNavigator parameterNode =
+                        methodNode.SelectSingleNode(String.Format(CultureInfo.InvariantCulture, ParameterExpression,
+                            parameterName));
                     if (parameterNode != null)
                     {
                         return parameterNode.Value.Trim();
@@ -75,7 +78,8 @@ namespace TestDemo.Areas.HelpPage
 
         public string GetDocumentation(MemberInfo member)
         {
-            string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
+            string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType),
+                member.Name);
             string expression = member.MemberType == MemberTypes.Field ? FieldExpression : PropertyExpression;
             string selectExpression = String.Format(CultureInfo.InvariantCulture, expression, memberName);
             XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
@@ -93,7 +97,8 @@ namespace TestDemo.Areas.HelpPage
             ReflectedHttpActionDescriptor reflectedActionDescriptor = actionDescriptor as ReflectedHttpActionDescriptor;
             if (reflectedActionDescriptor != null)
             {
-                string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression, GetMemberName(reflectedActionDescriptor.MethodInfo));
+                string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression,
+                    GetMemberName(reflectedActionDescriptor.MethodInfo));
                 return _documentNavigator.SelectSingleNode(selectExpression);
             }
 
@@ -102,7 +107,8 @@ namespace TestDemo.Areas.HelpPage
 
         private static string GetMemberName(MethodInfo method)
         {
-            string name = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(method.DeclaringType), method.Name);
+            string name = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(method.DeclaringType),
+                method.Name);
             ParameterInfo[] parameters = method.GetParameters();
             if (parameters.Length != 0)
             {
@@ -147,7 +153,8 @@ namespace TestDemo.Areas.HelpPage
                 // Trim the generic parameter counts from the name
                 genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
                 string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
-                name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
+                name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName,
+                    String.Join(",", argumentTypeNames));
             }
             if (type.IsNested)
             {
