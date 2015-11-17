@@ -1,11 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using TestDemo.Validators;
 
 namespace TestDemo.Controllers
 {
     public class ValuesController : ApiController
     {
         private readonly IList<string> _values = new List<string>();
+
+        // TODO: dependency injection?
+        public ValuesValidator ValuesValidator = new ValuesValidator();
+
+        public ValuesController()
+        {
+        }
+
+        public ValuesController(ValuesValidator valuesValidator)
+        {
+            ValuesValidator = valuesValidator;
+        }
 
         // GET api/values
         public IEnumerable<string> Get()
@@ -22,7 +35,10 @@ namespace TestDemo.Controllers
         // POST api/values
         public void Post([FromBody] string value)
         {
-            _values.Add(value);
+            if (ValuesValidator.Validate(value))
+            {
+                _values.Add(value);
+            }
         }
 
         // PUT api/values/5

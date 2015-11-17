@@ -1,7 +1,10 @@
+using System;
 using System.Linq;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using TestDemo.Controllers;
+using TestDemo.Validators;
 
 namespace TestDemo.Tests.Controllers
 {
@@ -11,48 +14,25 @@ namespace TestDemo.Tests.Controllers
         [SetUp]
         public void Init()
         {
-            _vc = new ValuesController();
+            _vvMock.Setup(vv => vv.Validate(It.IsAny<string>())).Returns(true);
+
+            _vc = new ValuesController(_vvMock.Object);
+
             _vc.Post("value1");
             _vc.Post("value2");
             _vc.Post("value3");
         }
 
         private const string NewValue = "hei";
+
+        private readonly Mock<ValuesValidator> _vvMock = new Mock<ValuesValidator>();
         private ValuesController _vc;
 
         [Test]
-        public void Posted_Value_ShouldBeFound_OnGet()
+        public void Delete_ShouldFail_WhenNoSuchValue()
         {
-            var originalCount = _vc.Get().Count();
-            _vc.Post(NewValue);
-
-            // vanilla NUnit
-            Assert.That(_vc.Get(), Has.Member(NewValue));
-            Assert.That(_vc.Get().Count(), Is.EqualTo(originalCount + 1));
-
-            // FluentAssertions 
-            _vc.Get()
-                .Should().Contain(NewValue)
-                .And.HaveCount(originalCount + 1);
-        }
-
-        [Test]
-        public void Put_ShouldChange_Value()
-        {
-            var original = _vc.Get(1);
-
-            _vc.Put(1, NewValue);
-
-            // vanilla NUnit
-            Assert.That(_vc.Get(), Has.Member(NewValue));
-            Assert.That(_vc.Get(), Has.No.Member(original));
-            Assert.That(_vc.Get(1), Is.EqualTo(NewValue));
-
-            // FluentAssertions
-            _vc.Get()
-                .Should().Contain(NewValue)
-                .And.NotContain(original)
-                .And.HaveElementAt(1, NewValue);
+            Assert.Catch<ArgumentOutOfRangeException>(
+                () => _vc.Delete(_vc.Get().Count() + 1));
         }
 
         [Test]
@@ -71,6 +51,44 @@ namespace TestDemo.Tests.Controllers
             _vc.Get()
                 .Should().HaveCount(originalSize - 1)
                 .And.NotContain(value);
+        }
+
+        [Test]
+        public void InvalidValue_ShouldBeRejected()
+        {
+            _vvMock.Setup(vv => vv.Validate(It.IsAny<string>())).Returns(false).Verifiable();
+            _vvMock.Setup(vv => vv.DontCallThis(It.IsAny<string>())).Returns(false);
+
+            _vc.Post(NewValue);
+
+            _vc.Get().Should().NotContain(NewValue);
+            _vvMock.Verify();
+        }
+
+        [Test]
+        public void Posted_Value_ShouldBeFound_OnGet()
+        {
+            var originalCount = _vc.Get().Count();
+
+            _vc.Post(NewValue);
+
+            _vvMock.Verify(vv => vv.Validate(NewValue));
+            _vc.Get()
+                .Should().Contain(NewValue)
+                .And.HaveCount(originalCount + 1);
+        }
+
+        [Test]
+        public void Put_ShouldChange_Value()
+        {
+            var original = _vc.Get(1);
+
+            _vc.Put(1, NewValue);
+
+            _vc.Get()
+                .Should().Contain(NewValue)
+                .And.NotContain(original)
+                .And.HaveElementAt(1, NewValue);
         }
     }
 }
