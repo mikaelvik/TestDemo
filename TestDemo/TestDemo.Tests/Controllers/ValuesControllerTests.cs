@@ -90,5 +90,13 @@ namespace TestDemo.Tests.Controllers
                 .And.NotContain(original)
                 .And.HaveElementAt(1, NewValue);
         }
+
+        [Test]
+        public void Put_ShouldFail_WhenNoSuchId()
+        {
+            Assert.Catch<ArgumentOutOfRangeException>(
+              () => _vc.Delete(-1));
+
+        }
     }
 }
