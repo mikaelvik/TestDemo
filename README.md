@@ -1,2 +1,2 @@
 # TestDemo
-TÃ¸ysekode for Ã¥ utforske testing i C#
+Tøysekode for å utforske testing i C#
