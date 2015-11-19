@@ -95,8 +95,7 @@ namespace TestDemo.Tests.Controllers
         public void Put_ShouldFail_WhenNoSuchId()
         {
             Assert.Catch<ArgumentOutOfRangeException>(
-              () => _vc.Delete(-1));
-
+              () => _vc.Put(-1, null));
         }
     }
 }
