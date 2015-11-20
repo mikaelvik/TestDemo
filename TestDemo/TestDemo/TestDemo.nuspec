@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>    
+    <authors>Mikael Vik</authors>
+    <owners>Mikael Vik</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright &#0169; 2015</copyright>
+    <description>Describe me</description>
+    <frameworkAssemblies>
+    </frameworkAssemblies>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
+
