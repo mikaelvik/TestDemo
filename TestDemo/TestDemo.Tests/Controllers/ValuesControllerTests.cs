@@ -21,6 +21,7 @@ namespace TestDemo.Tests.Controllers
             _vc.Post("value1");
             _vc.Post("value2");
             _vc.Post("value3");
+            _vc.Post("value4");
         }
 
         private const string NewValue = "hei";
