@@ -14,6 +14,8 @@ namespace FomoLib.Tests
         {
             _ninja = new Ninja();
             _wMock = new Mock<IWeapon>();
+
+            _ninja.Arm(_wMock.Object);
         }
 
         private Ninja _ninja;
@@ -22,8 +24,10 @@ namespace FomoLib.Tests
         [Test]
         public void Fail_When_Arming_Without_Weapon()
         {
+            // vanilla NUnit
             Assert.Catch<DisgruntledNinja>(() => _ninja.Arm(null));
 
+            // FluentAssertions
             Action act = () => _ninja.Arm(null);
             act.ShouldThrow<DisgruntledNinja>()
                 .WithMessage("?*hell no*");
@@ -32,12 +36,14 @@ namespace FomoLib.Tests
         [Test]
         public void Should_Accept_And_Attack_With_Weapon()
         {
-            _wMock.Setup(w => w.Hit(It.IsAny<string>())).Returns(true).Verifiable();
-            _ninja.Arm(_wMock.Object);
+            var mockAttack = "mock attack";
+            var target = "Morten";
+            _wMock.Setup(w => w.Hit(It.IsAny<string>())).Returns(mockAttack);
 
-            _ninja.Attack("Morten");
+            var attack = _ninja.Attack(target);
 
-            _wMock.Verify();
+            attack.Should().Contain(mockAttack);
+            _wMock.Verify(w => w.Hit(target));
         }
     }
 }
