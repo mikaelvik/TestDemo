@@ -11,5 +11,10 @@ namespace FomoLib
                 throw new DisgruntledNinja("Oh Hell No!!");
             }
         }
+
+        public void Attack(string name)
+        {
+            
+        }
     }
 }
