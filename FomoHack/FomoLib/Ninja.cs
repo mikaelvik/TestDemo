@@ -4,7 +4,7 @@ namespace FomoLib
 {
     public class Ninja
     {
-        public void Arm(Weapon weapon)
+        public void Arm(IWeapon weapon)
         {
             if (weapon == null)
             {

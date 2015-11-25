@@ -13,11 +13,11 @@ namespace FomoLib.Tests
         public void Init()
         {
             _ninja = new Ninja();
-            _nMock = new Mock<Weapon>();
+            _wMock = new Mock<IWeapon>();
         }
 
         private Ninja _ninja;
-        private Mock<Weapon> _nMock;
+        private Mock<IWeapon> _wMock;
 
         [Test]
         public void Fail_When_Arming_Without_Weapon()
@@ -32,9 +32,12 @@ namespace FomoLib.Tests
         [Test]
         public void Should_Accept_And_Attack_With_Weapon()
         {
-            _ninja.Arm(_nMock.Object);
+            _wMock.Setup(w => w.Hit(It.IsAny<string>())).Returns(true).Verifiable();
+            _ninja.Arm(_wMock.Object);
 
             _ninja.Attack("Morten");
+
+            _wMock.Verify();
         }
     }
 }
