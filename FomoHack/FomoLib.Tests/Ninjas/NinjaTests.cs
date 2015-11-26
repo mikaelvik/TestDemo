@@ -39,12 +39,13 @@ namespace FomoLib.Tests.Ninjas
         {
             var mockAttack = "mock attack";
             var target = "Morten";
-            _wMock.Setup(w => w.Hit(It.IsAny<string>())).Returns(mockAttack);
+            _wMock.Setup(w => w.Hit(It.IsAny<string>())).Returns(mockAttack).Verifiable();
 
             var attack = _ninja.Attack(target);
 
             attack.Should().Contain(mockAttack);
             _wMock.Verify(w => w.Hit(target));
+            _wMock.Verify();
         }
 
         [TestCase("Sindre")]

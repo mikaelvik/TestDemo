@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ninjas\Error\DisgruntledNinja.cs" />
+    <Compile Include="Ninjas\Nunchuck.cs" />
     <Compile Include="Ninjas\Ninja.cs" />
     <Compile Include="Ninjas\IWeapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
