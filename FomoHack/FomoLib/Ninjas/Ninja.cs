@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FomoLib.Error;
+using FomoLib.Ninjas.Error;
 
-namespace FomoLib
+namespace FomoLib.Ninjas
 {
     public class Ninja
     {
@@ -20,7 +20,7 @@ namespace FomoLib
         public string Attack(string target)
         {
             return string.Join(
-                ", ", 
+                "\n",
                 _weapons.Select(w => w.Hit(target))
                 );
         }

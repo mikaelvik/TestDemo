@@ -1,10 +1,11 @@
 ﻿using System;
 using FluentAssertions;
-using FomoLib.Error;
+using FomoLib.Ninjas;
+using FomoLib.Ninjas.Error;
 using Moq;
 using NUnit.Framework;
 
-namespace FomoLib.Tests
+namespace FomoLib.Tests.Ninjas
 {
     [TestFixture]
     public class NinjaTests
@@ -43,6 +44,14 @@ namespace FomoLib.Tests
             var attack = _ninja.Attack(target);
 
             attack.Should().Contain(mockAttack);
+            _wMock.Verify(w => w.Hit(target));
+        }
+
+        [TestCase("Sindre")]
+        [TestCase("Brita")]
+        public void Should_Attack(string target)
+        {
+            _ninja.Attack(target);
             _wMock.Verify(w => w.Hit(target));
         }
     }

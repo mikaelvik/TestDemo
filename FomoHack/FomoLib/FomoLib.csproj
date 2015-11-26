@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Error\DisgruntledNinja.cs" />
-    <Compile Include="Ninja.cs" />
+    <Compile Include="Ninjas\Error\DisgruntledNinja.cs" />
+    <Compile Include="Ninjas\Ninja.cs" />
+    <Compile Include="Ninjas\IWeapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IWeapon.cs" />
+    <Compile Include="Ninjas\Sword.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
