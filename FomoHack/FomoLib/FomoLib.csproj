@@ -43,6 +43,7 @@
     <Compile Include="Ninjas\Error\DisgruntledNinja.cs" />
     <Compile Include="Ninjas\Ninja.cs" />
     <Compile Include="Ninjas\IWeapon.cs" />
+    <Compile Include="Ninjas\Shuriken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ninjas\Sword.cs" />
   </ItemGroup>
