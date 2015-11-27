@@ -44,6 +44,7 @@
     <Compile Include="Ninjas\Errors\DisgruntledNinja.cs" />
     <Compile Include="Ninjas\ITarget.cs" />
     <Compile Include="Ninjas\Ninja.cs" />
+    <Compile Include="Ninjas\Peasant.cs" />
     <Compile Include="Ninjas\Weapons\IWeapon.cs" />
     <Compile Include="Ninjas\Weapons\Nunchuck.cs" />
     <Compile Include="Ninjas\Weapons\Sword.cs" />

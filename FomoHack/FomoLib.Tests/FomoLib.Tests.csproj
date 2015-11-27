@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ninjas\NinjaTests.cs" />
+    <Compile Include="Ninjas\PeasantTests.cs" />
     <Compile Include="Ninjas\Weapons\NunchuckTests.cs" />
     <Compile Include="Ninjas\Weapons\SwordTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
