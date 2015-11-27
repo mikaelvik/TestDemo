@@ -17,6 +17,8 @@ namespace FomoLib.Tests.Ninjas
 
         [TestCase("Sindre", "Las Vegas")]
         [TestCase("Anders", "Nordpolen")]
+        [TestCase("Kenneth", "Nowhere")]
+        [TestCase("Kjetil", "Nowhere")]
         public void Nunchuck_Should_Move_Sindre_To_LasVegas(string target, string city)
         {
             var result = _nunchuck.Hit(target);
