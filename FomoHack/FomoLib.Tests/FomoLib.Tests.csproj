@@ -60,9 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ninjas\NunchuckTests.cs" />
-    <Compile Include="Ninjas\SwordTests.cs" />
     <Compile Include="Ninjas\NinjaTests.cs" />
+    <Compile Include="Ninjas\Weapons\NunchuckTests.cs" />
+    <Compile Include="Ninjas\Weapons\SwordTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

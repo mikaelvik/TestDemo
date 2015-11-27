@@ -1,7 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using FomoLib.Ninjas;
-using FomoLib.Ninjas.Error;
+using FomoLib.Ninjas.Errors;
+using FomoLib.Ninjas.Weapons;
 using Moq;
 using NUnit.Framework;
 
@@ -54,6 +55,26 @@ namespace FomoLib.Tests.Ninjas
         {
             _ninja.Attack(target);
             _wMock.Verify(w => w.Hit(target));
+        }
+
+        [TestCase(100, 10, true)]
+        [TestCase(11, 10, true)]
+        [TestCase(10, 10, false)]
+        [TestCase(9, 10, false)]
+        public void Ninja_Should_Defend_When_Attacked(int lifeForce, int damage, bool survived)
+        {
+            _ninja = new Ninja(lifeForce);
+
+            _ninja.Defend(damage)
+                .Should().Be(survived);
+        }
+
+        [Test]
+        public void Ninja_Should_Suffer_Damage_When_Attacked_Several_Times()
+        {
+            _ninja = new Ninja(100);
+            _ninja.Defend(50).Should().Be(true);
+            _ninja.Defend(50).Should().Be(false);
         }
     }
 }

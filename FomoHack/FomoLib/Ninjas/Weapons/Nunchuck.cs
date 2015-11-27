@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FomoLib.Ninjas
+namespace FomoLib.Ninjas.Weapons
 {
     public class Nunchuck : IWeapon
     {

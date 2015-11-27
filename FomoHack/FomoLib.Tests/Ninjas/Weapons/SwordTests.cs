@@ -1,8 +1,8 @@
 using FluentAssertions;
-using FomoLib.Ninjas;
+using FomoLib.Ninjas.Weapons;
 using NUnit.Framework;
 
-namespace FomoLib.Tests.Ninjas
+namespace FomoLib.Tests.Ninjas.Weapons
 {
     [TestFixture]
     public class SwordTests

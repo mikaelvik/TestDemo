@@ -1,4 +1,4 @@
-namespace FomoLib.Ninjas
+namespace FomoLib.Ninjas.Weapons
 {
     public interface IWeapon
     {

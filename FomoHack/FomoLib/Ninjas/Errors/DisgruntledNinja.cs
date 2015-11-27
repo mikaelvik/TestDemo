@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FomoLib.Ninjas.Error
+namespace FomoLib.Ninjas.Errors
 {
     public class DisgruntledNinja : Exception
     {
