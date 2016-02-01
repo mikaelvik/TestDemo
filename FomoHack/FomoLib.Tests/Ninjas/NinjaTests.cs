@@ -11,6 +11,9 @@ namespace FomoLib.Tests.Ninjas
     [TestFixture]
     public class NinjaTests
     {
+        private Ninja _ninja;
+        private Mock<IWeapon> _wMock;
+
         [SetUp]
         public void Init()
         {
@@ -19,9 +22,6 @@ namespace FomoLib.Tests.Ninjas
 
             _ninja.Arm(_wMock.Object);
         }
-
-        private Ninja _ninja;
-        private Mock<IWeapon> _wMock;
 
         [Test]
         public void Fail_When_Arming_Without_Weapon()
